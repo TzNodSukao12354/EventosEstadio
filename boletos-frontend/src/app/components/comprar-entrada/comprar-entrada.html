@@ -1,0 +1,106 @@
+<div class="modal-overlay" *ngIf="evento">
+  <div class="modal-card card shadow" style="max-width: 900px;">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Comprar Entrada</h5>
+      <button type="button" class="btn-close btn-close-white" (click)="cerrar()"></button>
+    </div>
+
+    <div class="card-body">
+      <!-- Info del evento -->
+      <div class="alert alert-info mb-3">
+        <strong>{{ evento.nombreEvento }}</strong><br>
+        Fecha: {{ evento.fecha }} | Hora: {{ evento.hora }}
+      </div>
+
+      <!-- Mensajes -->
+      <div *ngIf="mensaje" [class]="tipoMensaje === 'success' ? 'alert alert-success' : 'alert alert-danger'">
+        {{ mensaje }}
+      </div>
+
+      <form (ngSubmit)="comprar()">
+        <!-- Nombre -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Nombre Completo</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ej: Juan Pérez"
+            [(ngModel)]="nombreUsuario"
+            name="nombreUsuario"
+            required
+          >
+        </div>
+
+        <!-- DNI -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Documento de Identidad (DNI)</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Ej: 12345678"
+            [(ngModel)]="documentoUsuario"
+            name="documentoUsuario"
+            required
+          >
+        </div>
+
+        <!-- Zona -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Zona</label>
+          <select
+            class="form-select"
+            [(ngModel)]="zonaId"
+            name="zonaId"
+            (change)="onZonaChange()"
+            required
+          >
+            <option *ngFor="let zona of zonasDisponibles" [value]="zona.id">
+              {{ zona.nombre }} - S/{{ zona.precio }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Mapa de asientos -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Selecciona tu asiento</label>
+          <app-mapa-asientos
+            *ngIf="evento && zonaId"
+            [eventoId]="evento.id"
+            [zonaId]="zonaId"
+            (asientoSeleccionado)="onAsientoSeleccionado($event)"
+          ></app-mapa-asientos>
+        </div>
+
+        <!-- Asiento seleccionado -->
+        <div *ngIf="asientoSeleccionado" class="alert alert-success">
+          <strong>Asiento seleccionado:</strong> Fila {{ asientoSeleccionado.fila }}, Columna {{ asientoSeleccionado.columna }}
+          - S/{{ asientoSeleccionado.precio }}
+        </div>
+
+        <!-- Tipo de entrega -->
+        <div class="mb-3">
+          <label class="form-label fw-bold">Tipo de Entrega</label>
+          <select
+            class="form-select"
+            [(ngModel)]="tipoEntrega"
+            name="tipoEntrega"
+          >
+            <option value="E-TICKET">E-Ticket (Digital)</option>
+            <option value="FISICA">Física (Retiro en taquilla)</option>
+          </select>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex gap-2 mt-4">
+          <button type="button" class="btn btn-secondary flex-grow-1" (click)="cerrar()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-success flex-grow-1 fw-bold" [disabled]="cargando || !asientoSeleccionado">
+            <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></span>
+            {{ cargando ? 'Procesando...' : 'Confirmar Compra' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

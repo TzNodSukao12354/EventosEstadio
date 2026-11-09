@@ -1,0 +1,7 @@
+/* Importar Bootstrap */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Aquí puedes agregar tus estilos personalizados */
+body {
+  background-color: #f8f9fa;
+}

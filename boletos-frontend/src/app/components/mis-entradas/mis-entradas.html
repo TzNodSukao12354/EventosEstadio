@@ -1,0 +1,78 @@
+<div class="container mt-4">
+  <!-- Navbar simple -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow-sm mb-4 px-3">
+    <a class="navbar-brand fw-bold" routerLink="/eventos">Sistema de Boletos</a>
+    <div class="navbar-nav ms-auto align-items-center">
+      <span class="nav-link disabled me-2">{{ authService.getUsername() }}</span>
+      <a class="nav-link" routerLink="/eventos">Eventos</a>
+      <a class="nav-link" routerLink="/mis-entradas" routerLinkActive="active">Mis Entradas</a>
+      <a class="nav-link" *ngIf="authService.isAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
+      <button class="btn btn-outline-danger btn-sm ms-2" (click)="authService.logout()">Cerrar Sesión</button>
+    </div>
+  </nav>
+
+  <h2 class="text-center mb-4 fw-bold">Mis Entradas</h2>
+
+  <!-- Cargando -->
+  <div *ngIf="cargando" class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Cargando tus entradas...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="!cargando && mensaje" class="alert alert-warning text-center">
+    {{ mensaje }}
+  </div>
+
+  <!-- Lista de entradas -->
+  <div class="row" *ngIf="!cargando && entradas.length > 0">
+    <div class="col-md-6 mb-3" *ngFor="let entrada of entradas">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title fw-bold mb-0">{{ entrada.nombreEvento }}</h5>
+            <span class="badge {{ getEstadoBadge(entrada.estado) }} fs-6">{{ entrada.estado }}</span>
+          </div>
+
+          <p class="card-text text-muted mb-1">
+            Fecha: {{ entrada.fechaEvento }} | Hora: {{ entrada.horaEvento }}
+          </p>
+          <p class="card-text text-muted mb-1">
+            {{ entrada.nombreEstadio }}
+          </p>
+          <p class="card-text text-muted mb-1">
+            Zona: {{ entrada.nombreZona }} | Tipo: {{ entrada.tipoEntrega }}
+          </p>
+          <p class="card-text text-muted mb-1">
+            {{ entrada.nombreUsuario }} | DNI: {{ entrada.documentoUsuario }}
+          </p>
+          <p class="card-text text-muted mb-3">
+            ID Entrada: <strong>#{{ entrada.id }}</strong>
+          </p>
+
+          <!-- Acciones según estado -->
+          <div class="d-flex gap-2" *ngIf="entrada.estado === 'VIGENTE'">
+            <button class="btn btn-outline-danger btn-sm flex-grow-1" (click)="reportarPerdida(entrada.id)">
+              Reportar Pérdida
+            </button>
+            <button class="btn btn-outline-secondary btn-sm flex-grow-1" (click)="cancelarEntrada(entrada.id)">
+              Cancelar
+            </button>
+          </div>
+
+          <div class="text-center text-muted small mt-2" *ngIf="entrada.estado !== 'VIGENTE'">
+            Esta entrada no tiene acciones disponibles.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin entradas -->
+  <div *ngIf="!cargando && entradas.length === 0" class="text-center mt-5">
+    <p class="text-muted">No tienes entradas compradas aún.</p>
+    <a routerLink="/eventos" class="btn btn-primary mt-2">Ver Eventos Disponibles</a>
+  </div>
+</div>

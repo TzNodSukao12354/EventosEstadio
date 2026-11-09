@@ -1,0 +1,234 @@
+/* Contenedor principal */
+.mapa-container {
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  max-height: 650px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Barra de herramientas */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Leyenda */
+.leyenda {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 8px 15px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid #ccc;
+}
+
+.dot.disponible {
+  background: #28a745;
+}
+
+.dot.ocupado {
+  background: #dc3545;
+}
+
+.dot.seleccionado {
+  background: #007bff;
+}
+
+.controles {
+  display: flex;
+  gap: 5px;
+}
+
+/* Info de la zona */
+.zona-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 12px;
+  background: white;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  flex-wrap: wrap;
+}
+
+.zona-info h6 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  min-width: 150px;
+}
+
+.precio {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #28a745;
+  background: #d4edda;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.estadistica {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Badge de formación */
+.badge-formacion {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-estadio {
+  background: #e7f3ff;
+  color: #004085;
+  border: 1px solid #b8daff;
+}
+
+.badge-circular {
+  background: #f3e5f5;
+  color: #6a1b9a;
+  border: 1px solid #ce93d8;
+}
+
+.badge-arena {
+  background: #fce4ec;
+  color: #880e4f;
+  border: 1px solid #f48fb1;
+}
+
+/* Canvas wrapper */
+.canvas-wrapper {
+  flex: 1;
+  min-height: 450px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+
+.canvas-wrapper:active {
+  cursor: grabbing;
+}
+
+.mapa-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Mensajes */
+.alert {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.alert-info {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+/* Cargando */
+.cargando {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.cargando p {
+  margin-top: 10px;
+}
+
+/* Sin asientos */
+.sin-asientos {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-style: italic;
+}
+
+/* Instrucciones */
+.instrucciones {
+  text-align: center;
+  margin-top: 8px;
+  padding: 5px;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.instrucciones small {
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+  }
+
+  .zona-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .leyenda {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .canvas-wrapper {
+    min-height: 350px;
+  }
+}
